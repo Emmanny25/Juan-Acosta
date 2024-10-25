@@ -1,6 +1,8 @@
 document.addEventListener("DOMContentLoaded", () => {
     let currentIndex = 0;
     const images = document.querySelectorAll('.carousel-image');
+    let touchStartX = 0;
+    let touchEndX = 0;
 
     function showSlide(index) {
         images.forEach((img, i) => {
@@ -13,19 +15,36 @@ document.addEventListener("DOMContentLoaded", () => {
         showSlide(currentIndex);
     }
 
-    function autoSlide() {
-        setInterval(() => {
-            changeSlide(1); // Automatically go to the next slide every 3 seconds
-        }, 3000);
+    function handleGesture() {
+        if (touchEndX < touchStartX) {
+            changeSlide(1); // Swipe left, go to next slide
+        }
+        if (touchEndX > touchStartX) {
+            changeSlide(-1); // Swipe right, go to previous slide
+        }
     }
 
     // Initialize the slideshow
     showSlide(currentIndex);
-    autoSlide();
+
+    // Auto slide function
+    setInterval(() => {
+        changeSlide(1); // Automatically go to the next slide every 3 seconds
+    }, 3000);
 
     // Manual navigation
     document.querySelector('.prev').addEventListener('click', () => changeSlide(-1));
     document.querySelector('.next').addEventListener('click', () => changeSlide(1));
+
+    // Touch event listeners for swipe gestures
+    document.querySelector('.carousel').addEventListener('touchstart', (e) => {
+        touchStartX = e.changedTouches[0].screenX;
+    });
+
+    document.querySelector('.carousel').addEventListener('touchend', (e) => {
+        touchEndX = e.changedTouches[0].screenX;
+        handleGesture();
+    });
 });
 
 

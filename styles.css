@@ -8,6 +8,11 @@ html {
     scroll-behavior: smooth;
 }
 
+html, body {
+    overflow-x: hidden; /* Prevent horizontal scroll on mobile */
+}
+
+
 body {
     font-family: Arial, sans-serif;
     line-height: 1.6;
@@ -124,6 +129,13 @@ header {
 
 .carousel-image.active {
     opacity: 1; /* Only the active image is fully visible */
+}
+
+/* Reduce carousel height for smaller screens */
+@media (max-width: 767px) {
+    .carousel {
+        height: 300px; /* Reduce the height further for small screens */
+    }
 }
 
 .prev, .next {
